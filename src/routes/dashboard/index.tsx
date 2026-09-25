@@ -1,0 +1,136 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Globe, Lock, Network, Radar } from "lucide-react";
+import type { ReactNode } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+
+export const Route = createFileRoute("/dashboard/")({
+	component: DashboardPage,
+});
+
+interface Tool {
+	name: string;
+	description: string;
+	icon: ReactNode;
+	// Omit href for tools that aren't built yet — the card renders as disabled.
+	href?: string;
+}
+
+const tools: Tool[] = [
+	{
+		name: "Port & Service Scan",
+		description:
+			"Look up open ports, hostnames, and known CVEs for any public IP via Shodan's InternetDB.",
+		icon: <Radar className="h-5 w-5 text-(--link)" />,
+		href: "/scan",
+	},
+	{
+		name: "DNS Recon",
+		description:
+			"Walk a domain's A, MX, TXT, and NS records, plus common subdomain guesses.",
+		icon: <Globe className="h-5 w-5 text-(--link)" />,
+	},
+	{
+		name: "SSL/TLS Audit",
+		description:
+			"Check certificate validity, expiry date, and cipher strength for a host.",
+		icon: <Lock className="h-5 w-5 text-(--link)" />,
+	},
+	{
+		name: "Subdomain Enumeration",
+		description:
+			"Find subdomains for a domain using certificate transparency logs.",
+		icon: <Network className="h-5 w-5 text-(--link)" />,
+	},
+];
+
+function DashboardPage() {
+	return (
+		<div className="min-h-screen bg-[#0A0E13] text-[#DDE3E8]">
+			<div className="mx-auto max-w-4xl px-6 py-16">
+				<header className="mb-10">
+					<p className="font-mono text-xs tracking-wide text-[#5B6A76]">
+						dashboard
+					</p>
+					<h1 className="mt-1 text-2xl font-semibold text-[#F3F6F8]">
+						Choose a tool
+					</h1>
+					<p className="mt-2 text-sm text-[#8A98A3]">
+						Each tool works the same way: enter a target, get a plain report
+						back.
+					</p>
+				</header>
+
+				<div className="grid gap-4 sm:grid-cols-2">
+					{tools.map((tool) => (
+						<ToolCard key={tool.name} tool={tool} />
+					))}
+				</div>
+			</div>
+		</div>
+	);
+}
+
+function ToolCard({ tool }: { tool: Tool }) {
+	const enabled = Boolean(tool.href);
+
+	return (
+		<Card
+			className={`flex flex-col justify-between border-[#232B35] bg-[#12181F] ${
+				enabled ? "" : "opacity-60"
+			}`}
+		>
+			<CardHeader>
+				<div className="flex items-start justify-between">
+					<div className="flex h-9 w-9 items-center justify-center rounded-md border border-[#232B35] bg-[#161D25] text-[#4FBFA8]">
+						{tool.icon}
+					</div>
+					{!enabled && (
+						<Badge
+							variant="outline"
+							className="border-[#2C3742] text-[10px] text-[#7A8891]"
+						>
+							Coming soon
+						</Badge>
+					)}
+				</div>
+				<CardTitle className="pt-2 text-base text-[#F3F6F8]">
+					{tool.name}
+				</CardTitle>
+				<CardDescription className="text-[#8A98A3]">
+					{tool.description}
+				</CardDescription>
+			</CardHeader>
+
+			<CardFooter>
+				{enabled ? (
+					<Button
+						asChild
+						variant="secondary"
+						className="w-full hover:text-(--text)/80 text-(--text) bg-(--link) hover:bg-(--link)/80"
+					>
+						<Link to={tool.href}>
+							Open
+							<ArrowRight className="ml-1.5 h-4 w-4" />
+						</Link>
+					</Button>
+				) : (
+					<Button
+						disabled
+						variant="secondary"
+						className="w-full bg-[#1B2129] text-[#5B6A76]"
+					>
+						Not available yet
+					</Button>
+				)}
+			</CardFooter>
+		</Card>
+	);
+}
