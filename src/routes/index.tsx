@@ -31,7 +31,7 @@ function Hero() {
 	return (
 		<section className="mx-auto max-w-2xl px-6 py-24">
 			<p className="font-mono text-xs tracking-wide text-(--text-secondary)">
-				personal security toolkit
+				Personal Security Toolkit
 			</p>
 			<h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
 				A console for the checks you run on a host before you trust it.
@@ -46,7 +46,7 @@ function Hero() {
 					asChild
 					className="hover:text-(--text)/80 text-(--text) bg-(--link) hover:bg-(--link)/80"
 				>
-					<Link to="/dashboard">
+					<Link to="/dashboard" className="text-xs">
 						Open dashboard
 						<ArrowRight className="ml-1.5 h-4 w-4" />
 					</Link>
@@ -229,16 +229,5 @@ function ClosingCta() {
 				</div>
 			</div>
 		</section>
-	);
-}
-
-function Footer() {
-	return (
-		<footer className="border-t border-border">
-			<div className="mx-auto max-w-4xl px-6 py-8 text-xs text-(--text-secondary)">
-				Built for personal use. Data pulled from public sources — nothing is
-				scanned actively.
-			</div>
-		</footer>
 	);
 }

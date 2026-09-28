@@ -5,8 +5,8 @@ export function Footer() {
 				{/* Main Footer Row: Notice & Links */}
 				<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 					<p className="max-w-md">
-						Built for personal use. Data pulled from public sources — nothing is
-						scanned actively.
+						Built for personal project showcase. Data is pulled from public
+						APIs, nothing is scanned actively.
 					</p>
 
 					<nav className="flex flex-wrap gap-x-4 gap-y-2">

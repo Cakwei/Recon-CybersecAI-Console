@@ -58,7 +58,7 @@ function ScanPage() {
 			<div className="mx-auto max-w-2xl px-6 py-16">
 				<header className="mb-10">
 					<p className="font-mono text-xs tracking-wide text-(--text-secondary)">
-						host reconnaissance
+						Host Reconnaissance
 					</p>
 					<h1 className="mt-1 text-2xl font-semibold text-(--text)">
 						Look up an IP on Shodan InternetDB

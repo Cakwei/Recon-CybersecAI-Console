@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Globe, Lock, Network, Radar } from "lucide-react";
+import { ArrowRight, Globe, Lock, Network, Radar, Search } from "lucide-react";
 import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,13 @@ const tools: Tool[] = [
 		href: "/scan",
 	},
 	{
+		name: "WHOIS Lookup",
+		description:
+			"Find details on a specific domain like registration date and registrar.",
+		icon: <Search className="h-5 w-5 text-(--link)" />,
+		href: "/whois",
+	},
+	{
 		name: "DNS Recon",
 		description:
 			"Walk a domain's A, MX, TXT, and NS records, plus common subdomain guesses.",
@@ -57,7 +64,7 @@ function DashboardPage() {
 			<div className="mx-auto max-w-4xl px-6 py-16">
 				<header className="mb-10">
 					<p className="font-mono text-xs tracking-wide text-[#5B6A76]">
-						dashboard
+						Dashboard
 					</p>
 					<h1 className="mt-1 text-2xl font-semibold text-[#F3F6F8]">
 						Choose a tool
@@ -111,16 +118,12 @@ function ToolCard({ tool }: { tool: Tool }) {
 
 			<CardFooter>
 				{enabled ? (
-					<Button
-						asChild
-						variant="secondary"
-						className="w-full hover:text-(--text)/80 text-(--text) bg-(--link) hover:bg-(--link)/80"
-					>
-						<Link to={tool.href}>
+					<Link to={tool.href}>
+						<Button className="w-full hover:text-(--text)/80 text-(--text) bg-(--link) text-xs hover:bg-(--link)/80">
 							Open
-							<ArrowRight className="ml-1.5 h-4 w-4" />
-						</Link>
-					</Button>
+							<ArrowRight className="h-4 w-4" />
+						</Button>
+					</Link>
 				) : (
 					<Button
 						disabled

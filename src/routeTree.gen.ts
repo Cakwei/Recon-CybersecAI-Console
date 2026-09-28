@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ScanIndexRouteImport } from './routes/scan/index'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as WhoisIndexRouteImport } from './routes/whois/index'
+import { Route as ApiV1AuthSplatRouteImport } from './routes/api/v1/auth/$'
+import { Route as ApiV1WhoisIndexRouteImport } from './routes/api/v1/whois/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +31,19 @@ const ScanIndexRoute = ScanIndexRouteImport.update({
   path: '/scan/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
+const WhoisIndexRoute = WhoisIndexRouteImport.update({
+  id: '/whois/',
+  path: '/whois/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1AuthSplatRoute = ApiV1AuthSplatRouteImport.update({
+  id: '/api/v1/auth/$',
+  path: '/api/v1/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1WhoisIndexRoute = ApiV1WhoisIndexRouteImport.update({
+  id: '/api/v1/whois/',
+  path: '/api/v1/whois/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +51,56 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/scan/': typeof ScanIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/whois/': typeof WhoisIndexRoute
+  '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/scan': typeof ScanIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/whois': typeof WhoisIndexRoute
+  '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/whois': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/scan/': typeof ScanIndexRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/whois/': typeof WhoisIndexRoute
+  '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard/' | '/scan/' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/dashboard/'
+    | '/scan/'
+    | '/whois/'
+    | '/api/v1/auth/$'
+    | '/api/v1/whois/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/scan' | '/api/auth/$'
-  id: '__root__' | '/' | '/dashboard/' | '/scan/' | '/api/auth/$'
+  to:
+    '/' | '/dashboard' | '/scan' | '/whois' | '/api/v1/auth/$' | '/api/v1/whois'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard/'
+    | '/scan/'
+    | '/whois/'
+    | '/api/v1/auth/$'
+    | '/api/v1/whois/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ScanIndexRoute: typeof ScanIndexRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  WhoisIndexRoute: typeof WhoisIndexRoute
+  ApiV1AuthSplatRoute: typeof ApiV1AuthSplatRoute
+  ApiV1WhoisIndexRoute: typeof ApiV1WhoisIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +126,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
+    '/whois/': {
+      id: '/whois/'
+      path: '/whois'
+      fullPath: '/whois/'
+      preLoaderRoute: typeof WhoisIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/auth/$': {
+      id: '/api/v1/auth/$'
+      path: '/api/v1/auth/$'
+      fullPath: '/api/v1/auth/$'
+      preLoaderRoute: typeof ApiV1AuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/whois/': {
+      id: '/api/v1/whois/'
+      path: '/api/v1/whois'
+      fullPath: '/api/v1/whois/'
+      preLoaderRoute: typeof ApiV1WhoisIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,7 +154,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ScanIndexRoute: ScanIndexRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
+  WhoisIndexRoute: WhoisIndexRoute,
+  ApiV1AuthSplatRoute: ApiV1AuthSplatRoute,
+  ApiV1WhoisIndexRoute: ApiV1WhoisIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
