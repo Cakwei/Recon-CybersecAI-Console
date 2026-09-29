@@ -15,7 +15,7 @@ export async function fetchWhoIsInfo({ domainName }: IWhoIs) {
 			headers: { Authorization: `TOKEN=${process.env.WHOIS_API_KEY}` },
 		});
 
-		console.log(response.data);
+		// console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching WHOIS data:", (error as AxiosError).message);

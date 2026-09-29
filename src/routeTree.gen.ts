@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ScanIndexRouteImport } from './routes/scan/index'
+import { Route as SubdomainsIndexRouteImport } from './routes/subdomains/index'
 import { Route as WhoisIndexRouteImport } from './routes/whois/index'
 import { Route as ApiV1AuthSplatRouteImport } from './routes/api/v1/auth/$'
 import { Route as ApiV1WhoisIndexRouteImport } from './routes/api/v1/whois/index'
@@ -29,6 +30,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const ScanIndexRoute = ScanIndexRouteImport.update({
   id: '/scan/',
   path: '/scan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubdomainsIndexRoute = SubdomainsIndexRouteImport.update({
+  id: '/subdomains/',
+  path: '/subdomains/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhoisIndexRoute = WhoisIndexRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/scan/': typeof ScanIndexRoute
+  '/subdomains/': typeof SubdomainsIndexRoute
   '/whois/': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/scan': typeof ScanIndexRoute
+  '/subdomains': typeof SubdomainsIndexRoute
   '/whois': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois': typeof ApiV1WhoisIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/scan/': typeof ScanIndexRoute
+  '/subdomains/': typeof SubdomainsIndexRoute
   '/whois/': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
@@ -78,17 +87,25 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard/'
     | '/scan/'
+    | '/subdomains/'
     | '/whois/'
     | '/api/v1/auth/$'
     | '/api/v1/whois/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/dashboard' | '/scan' | '/whois' | '/api/v1/auth/$' | '/api/v1/whois'
+    | '/'
+    | '/dashboard'
+    | '/scan'
+    | '/subdomains'
+    | '/whois'
+    | '/api/v1/auth/$'
+    | '/api/v1/whois'
   id:
     | '__root__'
     | '/'
     | '/dashboard/'
     | '/scan/'
+    | '/subdomains/'
     | '/whois/'
     | '/api/v1/auth/$'
     | '/api/v1/whois/'
@@ -98,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ScanIndexRoute: typeof ScanIndexRoute
+  SubdomainsIndexRoute: typeof SubdomainsIndexRoute
   WhoisIndexRoute: typeof WhoisIndexRoute
   ApiV1AuthSplatRoute: typeof ApiV1AuthSplatRoute
   ApiV1WhoisIndexRoute: typeof ApiV1WhoisIndexRoute
@@ -124,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/scan'
       fullPath: '/scan/'
       preLoaderRoute: typeof ScanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subdomains/': {
+      id: '/subdomains/'
+      path: '/subdomains'
+      fullPath: '/subdomains/'
+      preLoaderRoute: typeof SubdomainsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/whois/': {
@@ -154,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ScanIndexRoute: ScanIndexRoute,
+  SubdomainsIndexRoute: SubdomainsIndexRoute,
   WhoisIndexRoute: WhoisIndexRoute,
   ApiV1AuthSplatRoute: ApiV1AuthSplatRoute,
   ApiV1WhoisIndexRoute: ApiV1WhoisIndexRoute,

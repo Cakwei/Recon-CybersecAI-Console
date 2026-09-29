@@ -12,7 +12,7 @@ import { type SubmitEvent, useState } from "react";
 import { z } from "zod";
 import { Label } from "#/components/ui/label.tsx";
 import { axios } from "#/lib/axios.ts";
-import { domainSchema } from "#/lib/validation.ts";
+import { domainSchema } from "#/lib/schema.ts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
