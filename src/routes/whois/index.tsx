@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import {
 	Calendar,
+	Clock,
 	FileText,
 	Globe,
 	Search,
@@ -9,7 +10,7 @@ import {
 	Shield,
 } from "lucide-react";
 import { type SubmitEvent, useState } from "react";
-import { z } from "zod";
+import { Badge } from "#/components/ui/badge.tsx";
 import { Label } from "#/components/ui/label.tsx";
 import { axios } from "#/lib/axios.ts";
 import { domainSchema } from "#/lib/schema.ts";
@@ -22,15 +23,34 @@ export const Route = createFileRoute("/whois/")({
 });
 
 // Mock type for demonstration
-type WhoisData = {
-	domain: string;
-	registrar: string;
-	creationDate: string;
-	expirationDate: string;
+interface WhoisData {
+	name: string;
 	status: string[];
-	nameServers: string[];
-	rawText: string;
-};
+	nameserver: string[];
+	nsAnalysis: {
+		detectedProviders: string[];
+	};
+	ips: string;
+	created: string;
+	changed: string;
+	expires: string;
+	age: {
+		days: number;
+		months: number;
+		years: number;
+	};
+	expiration: {
+		daysLeft: number;
+		isExpiringSoon: boolean;
+		isExpired: boolean;
+	};
+	dnssec: string;
+	source: string;
+	registrar: {
+		name: string;
+		email: string | null;
+	};
+}
 
 function WhoisPage() {
 	// const [query, setQuery] = useState("");
@@ -41,12 +61,13 @@ function WhoisPage() {
 		defaultValues: { domainName: "" },
 		onSubmit: async ({ value }) => {
 			const result = await axios.get("/whois", { params: value });
+			// logger.debug({ fah: result.data });
 
 			if (!result.data.success) {
 				return;
 			}
-
-			setResult(result.data);
+			// console.log(result.data.data)
+			setResult(result.data.data);
 		},
 	});
 
@@ -189,65 +210,81 @@ function EmptyState() {
 }
 
 function Results({ data }: { data: WhoisData }) {
-	console.log("FAHHH", data);
+	const ipList = data.ips ? data.ips.split(",").map((ip) => ip.trim()) : [];
+
 	return (
 		<div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
 			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-				<StatCard icon={<Globe />} title="Domain" value={data.domain} />
-				<StatCard icon={<Shield />} title="Registrar" value={data.registrar} />
+				<StatCard icon={<Globe />} title="Domain" value={data.name} />
 				<StatCard
-					icon={<Calendar />}
-					title="Registered On"
-					value={new Date(data.creationDate).toLocaleDateString()}
+					icon={<Shield />}
+					title="Registrar"
+					value={data.registrar.name}
 				/>
 				<StatCard
 					icon={<Calendar />}
-					title="Expires On"
-					value={new Date(data.expirationDate).toLocaleDateString()}
+					title="Registered On"
+					value={new Date(data.created).toLocaleDateString()}
+				/>
+				<StatCard
+					icon={<Clock />}
+					title="Expires"
+					value={`${new Date(data.expires).toLocaleDateString()} · ${data.expiration.daysLeft}d left`}
 				/>
 			</div>
 
 			<div className="grid gap-6 md:grid-cols-2">
-				<Card className="bg-(--bg) border-border">
+				<Card className="bg-(--bg-secondary) border-border">
 					<CardHeader className="pb-3">
-						<CardTitle className="text-sm font-medium flex items-center gap-2">
+						<CardTitle className="text-xs text-(--text-secondary) font-medium flex items-center gap-2">
 							<Server className="h-4 w-4 text-(--link)" />
 							Name Servers
 						</CardTitle>
 					</CardHeader>
-					<CardContent>
+					<CardContent className="space-y-3">
 						<ul className="space-y-2">
-							{Array.isArray(data?.nameServers) &&
-								data.nameServers.map((ns) => (
-									<li
-										key={ns}
-										className="font-mono text-xs text-(--text-secondary)"
-									>
-										{ns}
-									</li>
-								))}
+							{data.nameserver.map((ns) => (
+								<li
+									key={ns}
+									className="font-mono text-xs text-(--text-secondary)"
+								>
+									{ns}
+								</li>
+							))}
 						</ul>
+						{data.nsAnalysis.detectedProviders.length > 0 && (
+							<div className="flex flex-wrap gap-1.5 pt-1">
+								{data.nsAnalysis.detectedProviders.map((provider) => (
+									<Badge
+										key={provider}
+										variant="outline"
+										className="border-border text-(--text-secondary) text-[10px] capitalize"
+									>
+										{provider}
+									</Badge>
+								))}
+							</div>
+						)}
 					</CardContent>
 				</Card>
 
-				<Card className="bg-(--bg) border-border">
+				<Card className="bg-(--bg-secondary) border-border">
 					<CardHeader className="pb-3">
-						<CardTitle className="text-sm font-medium flex items-center gap-2">
+						<CardTitle className="text-xs text-(--text-secondary) font-medium flex items-center gap-2">
 							<Shield className="h-4 w-4 text-(--link)" />
 							Domain Status
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<ul className="space-y-2">
-							{Array.isArray(data?.status) &&
-								data.status.map((status) => (
-									<li
-										key={status}
-										className="font-mono text-xs text-(--text-secondary)"
-									>
-										{status}
-									</li>
-								))}
+							{data.status.map((status) => (
+								<li
+									key={status}
+									className="font-mono text-xs text-(--text-secondary)"
+								>
+									{status}
+								</li>
+							))}
 						</ul>
 					</CardContent>
 				</Card>
@@ -255,17 +292,37 @@ function Results({ data }: { data: WhoisData }) {
 
 			<Card className="bg-(--bg-secondary) border-border">
 				<CardHeader className="pb-3 border-b border-border">
-					<CardTitle className="text-sm font-medium flex items-center gap-2">
+					<CardTitle className="text-xs text-(--text-secondary) font-medium flex items-center gap-2">
 						<FileText className="h-4 w-4 text-(--link)" />
-						Raw WHOIS Data
+						Additional Details
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="pt-4">
-					<pre className="overflow-x-auto whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-(--text-secondary)">
-						{data.rawText}
-					</pre>
+					<dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+						<DetailRow label="DNSSEC" value={data.dnssec} />
+						<DetailRow label="IP address" value={ipList.join(", ") || "—"} />
+						<DetailRow
+							label="Domain age"
+							value={`${data.age.years}y ${data.age.months}m (${data.age.days}d)`}
+						/>
+						<DetailRow label="Last changed" value={data.changed} />
+						<DetailRow label="Source" value={data.source.toUpperCase()} />
+						<DetailRow
+							label="Registrar contact"
+							value={data.registrar.email ?? "—"}
+						/>
+					</dl>
 				</CardContent>
 			</Card>
+		</div>
+	);
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+	return (
+		<div className="flex items-center justify-between gap-4 sm:flex-col sm:items-start sm:gap-1">
+			<dt className="text-xs text-(--text-secondary)">{label}</dt>
+			<dd className="font-mono text-xs text-(--text)">{value}</dd>
 		</div>
 	);
 }
