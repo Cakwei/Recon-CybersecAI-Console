@@ -5,6 +5,7 @@ import {
 	Lock,
 	Network,
 	Radar,
+	Search,
 	ShieldCheck,
 	Terminal,
 } from "lucide-react";
@@ -145,24 +146,35 @@ function ToolsPreview() {
 			text: "Open ports, hostnames, and known CVEs via Shodan InternetDB.",
 			icon: <Radar className="h-4 w-4" />,
 			status: "Available",
+			href: "/scan",
+		},
+		{
+			name: "WHOIS Lookup",
+			text: "Find domain registration dates, nameservers, and registrar.",
+			icon: <Search className="h-4 w-4" />,
+			status: "Available",
+			href: "/whois",
 		},
 		{
 			name: "DNS Recon",
-			text: "Walk a domain's A, MX, TXT, and NS records.",
+			text: "Walk a domain's A, AAAA, MX, TXT, NS, SOA, and DMARC records.",
 			icon: <Globe className="h-4 w-4" />,
-			status: "Coming soon",
+			status: "Available",
+			href: "/dns",
 		},
 		{
 			name: "SSL/TLS Audit",
-			text: "Certificate validity, expiry, and cipher strength.",
+			text: "Certificate validity, expiry timeline, cipher strength, and SANs.",
 			icon: <Lock className="h-4 w-4" />,
-			status: "Coming soon",
+			status: "Available",
+			href: "/ssl",
 		},
 		{
-			name: "Subdomain Enumeration",
-			text: "Find subdomains via certificate transparency logs.",
+			name: "Domain & Subdomain Enumeration",
+			text: "Discover active subdomains with DNS resolution and wildcard detection.",
 			icon: <Network className="h-4 w-4" />,
-			status: "Coming soon",
+			status: "Available",
+			href: "/subdomains",
 		},
 	];
 
@@ -181,14 +193,15 @@ function ToolsPreview() {
 
 				<div className="mt-8 divide-y divide-border border-y border-border">
 					{tools.map((tool) => (
-						<div
+						<Link
 							key={tool.name}
-							className="flex items-center justify-between gap-4 py-4"
+							to={tool.href}
+							className="flex items-center justify-between gap-4 py-4 group hover:bg-(--bg-secondary)/50 px-2 rounded-lg transition-colors"
 						>
 							<div className="flex items-start gap-3">
 								<div className="mt-0.5 text-(--link)">{tool.icon}</div>
 								<div>
-									<h3 className="text-sm font-medium text-(--text)">
+									<h3 className="text-sm font-medium text-(--text) group-hover:text-(--link) transition-colors">
 										{tool.name}
 									</h3>
 									<p className="mt-0.5 text-xs text-(--text-secondary)">
@@ -196,10 +209,10 @@ function ToolsPreview() {
 									</p>
 								</div>
 							</div>
-							<span className="shrink-0 font-mono text-[10px] uppercase tracking-wide text-(--text-secondary)">
+							<span className="shrink-0 font-mono text-[10px] uppercase tracking-wide text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2 py-0.5 rounded-full">
 								{tool.status}
 							</span>
-						</div>
+						</Link>
 					))}
 				</div>
 			</div>

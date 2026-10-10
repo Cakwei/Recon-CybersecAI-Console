@@ -11,8 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DnsIndexRouteImport } from './routes/dns/index'
+import { Route as DomainEnumerationIndexRouteImport } from './routes/domain-enumeration/index'
+import { Route as PrivacyIndexRouteImport } from './routes/privacy/index'
 import { Route as ScanIndexRouteImport } from './routes/scan/index'
+import { Route as SslIndexRouteImport } from './routes/ssl/index'
 import { Route as SubdomainsIndexRouteImport } from './routes/subdomains/index'
+import { Route as TermsIndexRouteImport } from './routes/terms/index'
 import { Route as WhoisIndexRouteImport } from './routes/whois/index'
 import { Route as ApiV1AuthSplatRouteImport } from './routes/api/v1/auth/$'
 import { Route as ApiV1WhoisIndexRouteImport } from './routes/api/v1/whois/index'
@@ -27,14 +32,39 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DnsIndexRoute = DnsIndexRouteImport.update({
+  id: '/dns/',
+  path: '/dns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DomainEnumerationIndexRoute = DomainEnumerationIndexRouteImport.update({
+  id: '/domain-enumeration/',
+  path: '/domain-enumeration/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyIndexRoute = PrivacyIndexRouteImport.update({
+  id: '/privacy/',
+  path: '/privacy/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScanIndexRoute = ScanIndexRouteImport.update({
   id: '/scan/',
   path: '/scan/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SslIndexRoute = SslIndexRouteImport.update({
+  id: '/ssl/',
+  path: '/ssl/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SubdomainsIndexRoute = SubdomainsIndexRouteImport.update({
   id: '/subdomains/',
   path: '/subdomains/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsIndexRoute = TermsIndexRouteImport.update({
+  id: '/terms/',
+  path: '/terms/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhoisIndexRoute = WhoisIndexRouteImport.update({
@@ -56,8 +86,13 @@ const ApiV1WhoisIndexRoute = ApiV1WhoisIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dns/': typeof DnsIndexRoute
+  '/domain-enumeration/': typeof DomainEnumerationIndexRoute
+  '/privacy/': typeof PrivacyIndexRoute
   '/scan/': typeof ScanIndexRoute
+  '/ssl/': typeof SslIndexRoute
   '/subdomains/': typeof SubdomainsIndexRoute
+  '/terms/': typeof TermsIndexRoute
   '/whois/': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
@@ -65,8 +100,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dns': typeof DnsIndexRoute
+  '/domain-enumeration': typeof DomainEnumerationIndexRoute
+  '/privacy': typeof PrivacyIndexRoute
   '/scan': typeof ScanIndexRoute
+  '/ssl': typeof SslIndexRoute
   '/subdomains': typeof SubdomainsIndexRoute
+  '/terms': typeof TermsIndexRoute
   '/whois': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois': typeof ApiV1WhoisIndexRoute
@@ -75,8 +115,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dns/': typeof DnsIndexRoute
+  '/domain-enumeration/': typeof DomainEnumerationIndexRoute
+  '/privacy/': typeof PrivacyIndexRoute
   '/scan/': typeof ScanIndexRoute
+  '/ssl/': typeof SslIndexRoute
   '/subdomains/': typeof SubdomainsIndexRoute
+  '/terms/': typeof TermsIndexRoute
   '/whois/': typeof WhoisIndexRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
@@ -86,8 +131,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard/'
+    | '/dns/'
+    | '/domain-enumeration/'
+    | '/privacy/'
     | '/scan/'
+    | '/ssl/'
     | '/subdomains/'
+    | '/terms/'
     | '/whois/'
     | '/api/v1/auth/$'
     | '/api/v1/whois/'
@@ -95,8 +145,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/dns'
+    | '/domain-enumeration'
+    | '/privacy'
     | '/scan'
+    | '/ssl'
     | '/subdomains'
+    | '/terms'
     | '/whois'
     | '/api/v1/auth/$'
     | '/api/v1/whois'
@@ -104,8 +159,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard/'
+    | '/dns/'
+    | '/domain-enumeration/'
+    | '/privacy/'
     | '/scan/'
+    | '/ssl/'
     | '/subdomains/'
+    | '/terms/'
     | '/whois/'
     | '/api/v1/auth/$'
     | '/api/v1/whois/'
@@ -114,8 +174,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DnsIndexRoute: typeof DnsIndexRoute
+  DomainEnumerationIndexRoute: typeof DomainEnumerationIndexRoute
+  PrivacyIndexRoute: typeof PrivacyIndexRoute
   ScanIndexRoute: typeof ScanIndexRoute
+  SslIndexRoute: typeof SslIndexRoute
   SubdomainsIndexRoute: typeof SubdomainsIndexRoute
+  TermsIndexRoute: typeof TermsIndexRoute
   WhoisIndexRoute: typeof WhoisIndexRoute
   ApiV1AuthSplatRoute: typeof ApiV1AuthSplatRoute
   ApiV1WhoisIndexRoute: typeof ApiV1WhoisIndexRoute
@@ -137,6 +202,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dns/': {
+      id: '/dns/'
+      path: '/dns'
+      fullPath: '/dns/'
+      preLoaderRoute: typeof DnsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/domain-enumeration/': {
+      id: '/domain-enumeration/'
+      path: '/domain-enumeration'
+      fullPath: '/domain-enumeration/'
+      preLoaderRoute: typeof DomainEnumerationIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy/': {
+      id: '/privacy/'
+      path: '/privacy'
+      fullPath: '/privacy/'
+      preLoaderRoute: typeof PrivacyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scan/': {
       id: '/scan/'
       path: '/scan'
@@ -144,11 +230,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScanIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ssl/': {
+      id: '/ssl/'
+      path: '/ssl'
+      fullPath: '/ssl/'
+      preLoaderRoute: typeof SslIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/subdomains/': {
       id: '/subdomains/'
       path: '/subdomains'
       fullPath: '/subdomains/'
       preLoaderRoute: typeof SubdomainsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms/': {
+      id: '/terms/'
+      path: '/terms'
+      fullPath: '/terms/'
+      preLoaderRoute: typeof TermsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/whois/': {
@@ -178,8 +278,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DnsIndexRoute: DnsIndexRoute,
+  DomainEnumerationIndexRoute: DomainEnumerationIndexRoute,
+  PrivacyIndexRoute: PrivacyIndexRoute,
   ScanIndexRoute: ScanIndexRoute,
+  SslIndexRoute: SslIndexRoute,
   SubdomainsIndexRoute: SubdomainsIndexRoute,
+  TermsIndexRoute: TermsIndexRoute,
   WhoisIndexRoute: WhoisIndexRoute,
   ApiV1AuthSplatRoute: ApiV1AuthSplatRoute,
   ApiV1WhoisIndexRoute: ApiV1WhoisIndexRoute,

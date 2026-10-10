@@ -1,8 +1,6 @@
-// app/server/subdomains.ts
-
 import dns from "node:dns/promises";
 import { createServerFn } from "@tanstack/react-start";
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { z } from "zod";
 import { domainSchema } from "#/lib/schema.ts";
 

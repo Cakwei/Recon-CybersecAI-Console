@@ -41,20 +41,23 @@ const tools: Tool[] = [
 	{
 		name: "DNS Recon",
 		description:
-			"Walk a domain's A, MX, TXT, and NS records, plus common subdomain guesses.",
+			"Walk a domain's A, AAAA, MX, TXT, NS, SOA, and DMARC records via WhoisJSON.",
 		icon: <Globe className="h-5 w-5 text-(--link)" />,
+		href: "/dns",
 	},
 	{
 		name: "SSL/TLS Audit",
 		description:
-			"Check certificate validity, expiry date, and cipher strength for a host.",
+			"Check certificate validity, expiry date, issuer authority, SANs, and cipher strength via WhoisJSON.",
 		icon: <Lock className="h-5 w-5 text-(--link)" />,
+		href: "/ssl",
 	},
 	{
-		name: "Subdomain Enumeration",
+		name: "Domain & Subdomain Enumeration",
 		description:
-			"Find subdomains for a domain using certificate transparency logs.",
+			"Discover active subdomains with DNS resolution and wildcard detection via WhoisJSON.",
 		icon: <Network className="h-5 w-5 text-(--link)" />,
+		href: "/subdomains",
 	},
 ];
 

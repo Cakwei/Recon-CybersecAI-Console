@@ -1,3 +1,4 @@
+import { useForm } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import {
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 import { type ReactNode, type SubmitEvent, useState } from "react";
 
+import { ipSchema } from "#/lib/schema.ts";
 import { lookupHost } from "#/lib/server.ts";
 import type { InternetDBResult } from "#/lib/types.ts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -32,26 +34,33 @@ export const Route = createFileRoute("/scan/")({
 });
 
 function ScanPage() {
-	const [ip, setIp] = useState("");
 	const [result, setResult] = useState<InternetDBResult | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const lookup = useServerFn(lookupHost);
 
-	async function handleSubmit(e: SubmitEvent) {
+	const scanForm = useForm({
+		defaultValues: { ip: "" },
+		onSubmit: async ({ value }) => {
+			setError(null);
+			setResult(null);
+			setLoading(true);
+			try {
+				const data = await lookup({ data: { ip: value.ip.trim() } });
+				setResult(data);
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Something went wrong.");
+			} finally {
+				setLoading(false);
+			}
+		},
+	});
+
+	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
-		setError(null);
-		setResult(null);
-		setLoading(true);
-		try {
-			const data = await lookup({ data: { ip: ip.trim() } });
-			setResult(data);
-		} catch (err) {
-			setError(err instanceof Error ? err.message : "Something went wrong.");
-		} finally {
-			setLoading(false);
-		}
-	}
+		e.stopPropagation();
+		scanForm.handleSubmit();
+	};
 
 	return (
 		<div className="min-h-screen bg-(--bg) text-(--text)">
@@ -74,23 +83,79 @@ function ScanPage() {
 						IP address
 					</Label>
 					<div className="flex gap-2">
-						<Input
-							id="ip"
-							placeholder="8.8.8.8"
-							value={ip}
-							onChange={(e) => setIp(e.target.value)}
-							autoComplete="off"
-							spellCheck={false}
-							className="border-border text-sm bg-(--bg-secondary) font-mono text-(--text) placeholder:text-(--text-secondary) focus-visible:ring-(--link)"
-						/>
-						<Button
-							type="submit"
-							disabled={loading || !ip.trim()}
-							className="bg-(--link) text-(--bg) hover:opacity-90"
+						<scanForm.Field
+							name="ip"
+							validators={{
+								onChange: ({ value }) => {
+									const trimmed = value.trim();
+									if (!trimmed) {
+										return "IP address is required";
+									}
+									const parseResult = ipSchema.safeParse(trimmed);
+									if (!parseResult.success) {
+										return (
+											parseResult.error.issues[0]?.message ||
+											"Enter a valid IPv4 address"
+										);
+									}
+									return undefined;
+								},
+							}}
 						>
-							<Search className="mr-1.5 h-4 w-4" />
-							{loading ? "Scanning…" : "Scan"}
-						</Button>
+							{(field) => (
+								<Input
+									id={field.name}
+									name={field.name}
+									placeholder="8.8.8.8"
+									value={field.state.value}
+									onChange={(e) => field.handleChange(e.target.value)}
+									autoComplete="off"
+									spellCheck={false}
+									className="border-border text-sm bg-(--bg-secondary) font-mono text-(--text) placeholder:text-(--text-secondary) focus-visible:ring-(--link)"
+								/>
+							)}
+						</scanForm.Field>
+
+						<scanForm.Subscribe
+							selector={(state) => [
+								state.canSubmit,
+								state.isSubmitting,
+								state.values.ip,
+								state.errors,
+							]}
+						>
+							{([canSubmit, isSubmitting, ipValue, errors]) => {
+								const isValid =
+									typeof ipValue === "string" &&
+									ipValue.trim().length > 0 &&
+									ipSchema.safeParse(ipValue).success &&
+									errors.length === 0;
+
+								return (
+									<Button
+										type="submit"
+										disabled={!canSubmit || isSubmitting || loading || !isValid}
+										className="bg-(--link) hover:bg-(--link)/80 text-xs hover:opacity-90 text-white shrink-0"
+									>
+										<Search className="h-4 w-4" />
+										{isSubmitting || loading ? "Scanning…" : "Scan"}
+									</Button>
+								);
+							}}
+						</scanForm.Subscribe>
+					</div>
+
+					<div className="w-full">
+						<scanForm.Field name="ip">
+							{(field) =>
+								field.state.meta.isDirty &&
+								field.state.meta.errors.length > 0 && (
+									<Label className="text-xs mt-1.5 text-red-500">
+										{field.state.meta.errors}
+									</Label>
+								)
+							}
+						</scanForm.Field>
 					</div>
 				</form>
 

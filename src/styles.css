@@ -275,7 +275,6 @@ a {
 .nav-link {
   position: relative;
   text-decoration: none;
-  color: var(--sea-ink-soft);
 }
 
 .nav-link::after {
@@ -289,11 +288,6 @@ a {
   transform-origin: left;
   background: linear-gradient(90deg, var(--lagoon), #7ed3bf);
   transition: transform 170ms ease;
-}
-
-.nav-link:hover,
-.nav-link.is-active {
-  color: var(--sea-ink);
 }
 
 .nav-link:hover::after,

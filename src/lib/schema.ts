@@ -14,3 +14,8 @@ export const domainSchema = z
 		// Validate the transformed string is actually a valid URL
 		z.url({ message: "Invalid domain name" }),
 	);
+
+export const ipSchema = z
+	.string()
+	.trim()
+	.pipe(z.ipv4({ message: "Enter a valid IPv4 address" }));

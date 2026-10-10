@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { findSubdomains } from ".";
+import { findSubdomains } from "./-index";
 
 describe("getSubdomains()", () => {
 	test("able to find subdomains", async () => {

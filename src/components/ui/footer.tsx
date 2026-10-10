@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 export function Footer() {
 	return (
 		<footer className="border-t border-border py-8 text-xs text-(--text-secondary)">
@@ -10,18 +12,18 @@ export function Footer() {
 					</p>
 
 					<nav className="flex flex-wrap gap-x-4 gap-y-2">
-						<a
-							href="/privacy"
-							className="hover:underline hover:text-(--text-primary) transition-colors"
+						<Link
+							to="/privacy"
+							className="hover:underline hover:text-(--text) transition-colors"
 						>
 							Privacy Policy
-						</a>
-						<a
-							href="/terms"
-							className="hover:underline hover:text-(--text-primary) transition-colors"
+						</Link>
+						<Link
+							to="/terms"
+							className="hover:underline hover:text-(--text) transition-colors"
 						>
 							Terms of Service
-						</a>
+						</Link>
 						<a
 							href="https://github.com"
 							target="_blank"

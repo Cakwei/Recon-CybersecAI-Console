@@ -106,11 +106,16 @@ function WhoisPage() {
 							name="domainName"
 							validators={{
 								onChange: ({ value }) => {
-									const result = domainSchema.safeParse(value);
+									const trimmed = value.trim();
+									if (!trimmed) {
+										return "Domain name is required";
+									}
+									const result = domainSchema.safeParse(trimmed);
 
 									if (!result.success) {
-										// Extract the first error message from Zod and return it
-										return result.error.issues[0].message;
+										return (
+											result.error.issues[0]?.message || "Invalid domain name"
+										);
 									}
 
 									return undefined;
@@ -118,34 +123,40 @@ function WhoisPage() {
 							}}
 						>
 							{(field) => (
-								<>
-									<div className="relative flex-1">
-										<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--text-secondary)" />
-										<Input
-											type="text"
-											placeholder="Enter domain (e.g., example.com)"
-											value={field.state.value}
-											name={field.name}
-											id={field.name}
-											onChange={(e) => field.handleChange(e.target.value)}
-											className="bg-(--bg) pl-9 border-border focus-visible:ring-(--link) text-xs"
-											// disabled={isLoading}
-										/>
-									</div>
-								</>
+								<div className="relative flex-1">
+									<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-(--text-secondary)" />
+									<Input
+										type="text"
+										placeholder="Enter domain (e.g., example.com)"
+										value={field.state.value}
+										name={field.name}
+										id={field.name}
+										onChange={(e) => field.handleChange(e.target.value)}
+										className="bg-(--bg) pl-9 border-border focus-visible:ring-(--link) text-xs"
+									/>
+								</div>
 							)}
-
-							{/* The error message returned from safeParse will show up here */}
 						</domainLookUpForm.Field>
 						<domainLookUpForm.Subscribe
-							selector={(state) => [state.canSubmit, state.isSubmitting]}
+							selector={(state) => [
+								state.canSubmit,
+								state.isSubmitting,
+								state.values.domainName,
+								state.errors,
+							]}
 						>
-							{([canSubmit, isSubmitting]) => {
+							{([canSubmit, isSubmitting, domainName, errors]) => {
+								const isValid =
+									typeof domainName === "string" &&
+									domainName.trim().length > 0 &&
+									domainSchema.safeParse(domainName).success &&
+									errors.length === 0;
+
 								return (
 									<Button
 										type="submit"
-										disabled={!canSubmit}
-										className="bg-(--link) text-xs text-(--text) hover:bg-(--link)/80"
+										disabled={!canSubmit || isSubmitting || !isValid}
+										className="bg-(--link) text-xs text-(--text) hover:bg-(--link)/80 shrink-0"
 									>
 										{isSubmitting ? "Scanning..." : "Lookup"}
 									</Button>
@@ -157,6 +168,7 @@ function WhoisPage() {
 					<div className="w-full">
 						<domainLookUpForm.Field name="domainName">
 							{(field) =>
+								field.state.meta.isDirty &&
 								field.state.meta.errors.length > 0 && (
 									<Label className="text-xs mt-1.5 text-red-500">
 										{field.state.meta.errors}

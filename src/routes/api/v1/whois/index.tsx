@@ -18,7 +18,7 @@ export const Route = createFileRoute("/api/v1/whois/")({
 								message: "",
 							});
 						const result = await fetchWhoIsInfo({ domainName });
-						
+
 						return Response.json({
 							success: true,
 							data: result,
