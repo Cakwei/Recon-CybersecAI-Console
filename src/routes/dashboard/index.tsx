@@ -141,7 +141,12 @@ function DashboardPage() {
 							>
 								Developer API
 							</Badge>
-							<span className="text-xs text-[#8A98A3] font-mono">v1 REST</span>
+							<Badge
+								variant="outline"
+								className="border-none text-(--text) font-mono text-[10px] tracking-wide uppercase px-2 py-0.5"
+							>
+								REST v1
+							</Badge>
 						</div>
 						<h3 className="text-base font-semibold text-[#F3F6F8]">
 							Programmatic Security Reconnaissance
@@ -152,17 +157,15 @@ function DashboardPage() {
 							endpoints with typed contracts.
 						</p>
 					</div>
-
-					<Button
-						asChild
-						variant="outline"
-						className="border-[#232B35] bg-[#0A0E13] text-[#F3F6F8] hover:bg-[#1C242E] text-xs px-5 shrink-0"
-					>
-						<Link to="/docs">
+					<Link to="/docs">
+						<Button
+							variant="outline"
+							className="border-[#232B35] bg-[#0A0E13] text-(--text) hover:text-(--text)/80 hover:bg-(--bg-secondary) text-xs px-5 shrink-0"
+						>
 							API Documentation
 							<ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-						</Link>
-					</Button>
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</div>

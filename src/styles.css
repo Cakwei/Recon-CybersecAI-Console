@@ -312,7 +312,6 @@ a {
   height: 2px;
   transform: scaleX(0);
   transform-origin: left;
-  background: linear-gradient(90deg, var(--lagoon), #7ed3bf);
   transition: transform 170ms ease;
 }
 

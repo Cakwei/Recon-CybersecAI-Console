@@ -52,7 +52,7 @@ const ENDPOINTS: EndpointDoc[] = [
 		title: "Unified Attack Surface Audit",
 		path: "/api/v1/audit",
 		methods: ["GET", "POST"],
-		category: "Flagship",
+		category: "All-In-One",
 		icon: <Shield className="h-4 w-4 text-(--link)" />,
 		description:
 			"Aggregates multi-vector passive reconnaissance across SSL/TLS, DNS, open ports, CVEs, subdomains, and WHOIS. Evaluates posture to generate an A–F security scorecard with numerical score (0–100) and prioritized security findings.",
@@ -138,8 +138,8 @@ export interface AuditApiResponse {
   success: boolean;
   data: UnifiedAuditResult;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/audit?target=example.com"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/audit" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/audit?target=example.com"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/audit" \\
   -H "Content-Type: application/json" \\
   -d '{"target": "example.com"}'`,
 		exampleResponse: `{
@@ -232,8 +232,8 @@ export interface SubdomainApiResponse {
   success: boolean;
   data: SubdomainLookupResult;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/subdomain?domain=stripe.com"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/subdomain" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/subdomain?domain=stripe.com"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/subdomain" \\
   -H "Content-Type: application/json" \\
   -d '{"domain": "stripe.com"}'`,
 		exampleResponse: `{
@@ -309,8 +309,8 @@ export interface SslApiResponse {
   success: boolean;
   data: SslAuditResult;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/ssl?domain=github.com"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/ssl" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/ssl?domain=github.com"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/ssl" \\
   -H "Content-Type: application/json" \\
   -d '{"domain": "github.com"}'`,
 		exampleResponse: `{
@@ -393,8 +393,8 @@ export interface DnsApiResponse {
   success: boolean;
   data: DnsReconResult;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/dns?domain=google.com"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/dns" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/dns?domain=google.com"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/dns" \\
   -H "Content-Type: application/json" \\
   -d '{"domain": "google.com"}'`,
 		exampleResponse: `{
@@ -461,8 +461,8 @@ export interface DomainEnumApiResponse {
   success: boolean;
   data: DomainEnumerationResult;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/domain-enumeration?domain=example.com"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/domain-enumeration" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/domain-enumeration?domain=example.com"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/domain-enumeration" \\
   -H "Content-Type: application/json" \\
   -d '{"domain": "example.com"}'`,
 		exampleResponse: `{
@@ -538,8 +538,8 @@ export interface HostScanApiResponse {
   queriedTarget: string;
   resolvedIp: string;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/scan?ip=1.1.1.1"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/scan" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/scan?ip=1.1.1.1"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/scan" \\
   -H "Content-Type: application/json" \\
   -d '{"ip": "1.1.1.1"}'`,
 		exampleResponse: `{
@@ -619,8 +619,8 @@ export interface WhoisApiResponse {
   message?: string;
   error?: string;
 }`,
-		curlGet: `curl -s "https://your-domain.com/api/v1/whois?domainName=wikipedia.org"`,
-		curlPost: `curl -s -X POST "https://your-domain.com/api/v1/whois" \\
+		curlGet: `curl -s "https://recon.cakwei.dev/api/v1/whois?domainName=wikipedia.org"`,
+		curlPost: `curl -s -X POST "https://recon.cakwei.dev/api/v1/whois" \\
   -H "Content-Type: application/json" \\
   -d '{"domainName": "wikipedia.org"}'`,
 		exampleResponse: `{
@@ -693,13 +693,13 @@ function ApiDocsPage() {
 							<Button
 								variant="outline"
 								size="sm"
-								className="border-[#232B35] bg-[#12181F] text-xs text-[#DDE3E8] hover:bg-[#1C242E]"
+								className="border-[#232B35] hover:bg-(--bg-secondary) text-xs text-(--text) hover:text-(--text)"
 							>
 								Launch Web Audit
 							</Button>
 						</Link>
 						<a
-							href="https://github.com"
+							href="https://github.com/Cakwei/Recon-CybersecAI-Console"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -841,7 +841,7 @@ function ApiDocsPage() {
 										variant="ghost"
 										size="sm"
 										onClick={() => handleCopy("path", activeEndpoint.path)}
-										className="h-7 text-xs text-[#8A98A3] hover:text-white"
+										className="h-7 text-xs text-[#8A98A3] hover:text-white hover:bg-(--bg-secondary)"
 									>
 										{copiedKey === "path" ? (
 											<Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -970,7 +970,7 @@ function ApiDocsPage() {
 											onClick={() =>
 												handleCopy("types", activeEndpoint.tsTypes)
 											}
-											className="h-7 px-2 text-xs text-[#8A98A3] hover:text-white"
+											className="h-7 px-2 text-xs text-[#8A98A3] hover:text-white hover:bg-(--bg-secondary)"
 										>
 											{copiedKey === "types" ? (
 												<Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1009,7 +1009,7 @@ function ApiDocsPage() {
 											onClick={() =>
 												handleCopy("resp", activeEndpoint.exampleResponse)
 											}
-											className="h-7 px-2 text-xs text-[#8A98A3] hover:text-white"
+											className="h-7 px-2 text-xs text-[#8A98A3] hover:text-white hover:bg-(--bg-secondary)"
 										>
 											{copiedKey === "resp" ? (
 												<Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1037,7 +1037,7 @@ function ApiDocsPage() {
 									Error Responses & Validation
 								</CardTitle>
 							</CardHeader>
-							<CardContent className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+							<CardContent className="p-5 grid grid-cols-1 gap-4">
 								<div className="space-y-2">
 									<div className="flex items-center gap-2">
 										<Badge

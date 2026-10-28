@@ -345,9 +345,9 @@ function ScorecardHero({
 							{resolvedIps.length > 0 && (
 								<Badge
 									variant="secondary"
-									className="text-[10px] font-mono text-(--text-secondary)"
+									className="text-[10px] font-mono text-(--text-secondary) bg-transparent"
 								>
-									{resolvedIps[0]}
+									({resolvedIps[0]})
 								</Badge>
 							)}
 							<span className="text-[10px] font-mono text-(--text-secondary) ml-2">
@@ -469,9 +469,12 @@ function RisksCard({ risks }: { risks: SecurityRisk[] }) {
 		<Card className="border-border bg-(--bg-secondary)">
 			<CardHeader className="p-5 pb-3">
 				<CardTitle className="text-sm font-semibold text-(--text) flex items-center gap-2">
-					<ShieldAlert className="h-4 w-4 text-amber-400" />
+					<ShieldAlert className="h-4 w-4 text-(--link)" />
 					Identified Risks & Exposures
-					<Badge variant="outline" className="text-[10px] font-mono ml-auto">
+					<Badge
+						variant="outline"
+						className="text-[10px] text-(--text-secondary) font-mono ml-auto"
+					>
 						{risks.length} findings
 					</Badge>
 				</CardTitle>
@@ -597,7 +600,7 @@ function HostSecurityCard({
 										<Badge
 											key={tag}
 											variant="secondary"
-											className="text-[10px] font-mono"
+											className="text-[10px] font-mono border-(--link) bg-transparent text-(--link)"
 										>
 											{tag}
 										</Badge>
@@ -625,7 +628,7 @@ function SslSummaryCard({
 		<Card className="border-border bg-(--bg-secondary)">
 			<CardHeader className="p-5 pb-3">
 				<CardTitle className="text-sm font-semibold text-(--text) flex items-center gap-2">
-					<Lock className="h-4 w-4 text-emerald-400" />
+					<Lock className="h-4 w-4 text-(--link)" />
 					SSL/TLS Certificate
 					{ssl && (
 						<Badge
@@ -704,7 +707,7 @@ function DnsHygieneCard({
 		<Card className="border-border bg-(--bg-secondary)">
 			<CardHeader className="p-5 pb-3">
 				<CardTitle className="text-sm font-semibold text-(--text) flex items-center gap-2">
-					<Globe className="h-4 w-4 text-cyan-400" />
+					<Globe className="h-4 w-4 text-(--link)" />
 					DNS Hygiene & Anti-Spoofing
 				</CardTitle>
 			</CardHeader>
@@ -784,7 +787,7 @@ function SubdomainsCard({
 			<CardHeader className="p-5 pb-3">
 				<div className="flex items-center justify-between">
 					<CardTitle className="text-sm font-semibold text-(--text) flex items-center gap-2">
-						<Network className="h-4 w-4 text-purple-400" />
+						<Network className="h-4 w-4 text-(--link)" />
 						Active Subdomains Discovered ({subdomains.length})
 					</CardTitle>
 					<Link

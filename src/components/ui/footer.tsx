@@ -31,7 +31,7 @@ export function Footer() {
 							Terms of Service
 						</Link>
 						<a
-							href="https://github.com"
+							href="https://github.com/Cakwei/Recon-CybersecAI-Console"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="hover:underline hover:text-(--text-primary) transition-colors"
