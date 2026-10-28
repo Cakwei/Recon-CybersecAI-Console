@@ -14,6 +14,8 @@ import { Badge } from "#/components/ui/badge.tsx";
 import { Label } from "#/components/ui/label.tsx";
 import { axios } from "#/lib/axios.ts";
 import { domainSchema } from "#/lib/schema.ts";
+import { useFormRateLimiter } from "#/lib/use-rate-limiter.ts";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -57,6 +59,13 @@ function WhoisPage() {
 	// const [isLoading, setIsLoading] = useState(false);
 	const [result, setResult] = useState<WhoisData | null>(null);
 
+	const { rateLimitError, executeWithRateLimit, isExceeded } =
+		useFormRateLimiter({
+			limit: 5,
+			windowMs: 10000,
+			name: "WHOIS lookup",
+		});
+
 	const domainLookUpForm = useForm({
 		defaultValues: { domainName: "" },
 		onSubmit: async ({ value }) => {
@@ -74,25 +83,9 @@ function WhoisPage() {
 	const handleSearch = async (e: SubmitEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		domainLookUpForm.handleSubmit();
-		/* if (!query) return;
-
-		setIsLoading(true);
-		// Simulate API delay
-		await new Promise((resolve) => setTimeout(resolve, 800));
-
-		// Mock result
-		setResult({
-			domain: query.toLowerCase(),
-			registrar: "Cloudflare, Inc.",
-			creationDate: "2010-09-28T00:00:00Z",
-			expirationDate: "2027-09-28T00:00:00Z",
-			status: ["clientTransferProhibited", "serverUpdateProhibited"],
-			nameServers: ["ns1.cloudflare.com", "ns2.cloudflare.com"],
-			rawText: `Domain Name: ${query.toUpperCase()}\nRegistry Domain ID: 123456789_DOMAIN_COM-VRSN\nRegistrar WHOIS Server: whois.cloudflare.com\nRegistrar URL: http://www.cloudflare.com\nUpdated Date: 2024-01-15T10:20:30Z\nCreation Date: 2010-09-28T00:00:00Z\n...`,
+		executeWithRateLimit(() => {
+			domainLookUpForm.handleSubmit();
 		});
-		setIsLoading(false);
-        */
 	};
 
 	return (
@@ -155,15 +148,27 @@ function WhoisPage() {
 								return (
 									<Button
 										type="submit"
-										disabled={!canSubmit || isSubmitting || !isValid}
+										disabled={
+											!canSubmit || isSubmitting || !isValid || isExceeded
+										}
 										className="bg-(--link) text-xs text-(--text) hover:bg-(--link)/80 shrink-0"
 									>
-										{isSubmitting ? "Scanning..." : "Lookup"}
+										{isSubmitting
+											? "Scanning..."
+											: isExceeded
+												? "Rate limited"
+												: "Lookup"}
 									</Button>
 								);
 							}}
 						</domainLookUpForm.Subscribe>
 					</div>
+
+					{rateLimitError && (
+						<Alert className="mt-3 border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs py-2">
+							<AlertDescription>{rateLimitError}</AlertDescription>
+						</Alert>
+					)}
 
 					<div className="w-full">
 						<domainLookUpForm.Field name="domainName">

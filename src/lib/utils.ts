@@ -2,7 +2,6 @@ import axios, { type AxiosError } from "axios";
 import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { logger } from "./logger";
 import type { IWhoIs } from "./types";
 
 export function cn(...inputs: ClassValue[]) {

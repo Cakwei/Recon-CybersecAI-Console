@@ -14,6 +14,7 @@ import { type ReactNode, type SubmitEvent, useState } from "react";
 import { ipSchema } from "#/lib/schema.ts";
 import { lookupHost } from "#/lib/server.ts";
 import type { InternetDBResult } from "#/lib/types.ts";
+import { useFormRateLimiter } from "#/lib/use-rate-limiter.ts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,14 @@ function ScanPage() {
 	const [result, setResult] = useState<InternetDBResult | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
+
+	const { rateLimitError, executeWithRateLimit, isExceeded } =
+		useFormRateLimiter({
+			limit: 5,
+			windowMs: 10000,
+			name: "Host scan",
+		});
+
 	const lookup = useServerFn(lookupHost);
 
 	const scanForm = useForm({
@@ -59,7 +68,9 @@ function ScanPage() {
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		scanForm.handleSubmit();
+		executeWithRateLimit(() => {
+			scanForm.handleSubmit();
+		});
 	};
 
 	return (
@@ -134,16 +145,32 @@ function ScanPage() {
 								return (
 									<Button
 										type="submit"
-										disabled={!canSubmit || isSubmitting || loading || !isValid}
+										disabled={
+											!canSubmit ||
+											isSubmitting ||
+											loading ||
+											!isValid ||
+											isExceeded
+										}
 										className="bg-(--link) hover:bg-(--link)/80 text-xs hover:opacity-90 text-white shrink-0"
 									>
 										<Search className="h-4 w-4" />
-										{isSubmitting || loading ? "Scanning…" : "Scan"}
+										{isSubmitting || loading
+											? "Scanning…"
+											: isExceeded
+												? "Rate limited"
+												: "Scan"}
 									</Button>
 								);
 							}}
 						</scanForm.Subscribe>
 					</div>
+
+					{rateLimitError && (
+						<Alert className="border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs py-2">
+							<AlertDescription>{rateLimitError}</AlertDescription>
+						</Alert>
+					)}
 
 					<div className="w-full">
 						<scanForm.Field name="ip">

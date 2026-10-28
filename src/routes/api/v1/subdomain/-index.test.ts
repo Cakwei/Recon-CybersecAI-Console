@@ -1,5 +1,8 @@
-import { describe, expect, test } from "vitest";
+import dns from "node:dns/promises";
+import { describe, expect, test, vi } from "vitest";
 import { findSubdomains } from "./-index";
+
+vi.spyOn(dns, "resolve4").mockResolvedValue(["93.184.216.34"]);
 
 describe("getSubdomains()", () => {
 	test("able to find subdomains", async () => {

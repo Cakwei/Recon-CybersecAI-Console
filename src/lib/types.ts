@@ -97,3 +97,61 @@ export interface DomainEnumerationResult {
 	scan_time_ms: number;
 	subdomains: SubdomainItem[];
 }
+
+export interface SubdomainLookupResult {
+	totalDiscovered: number;
+	active: Array<{
+		subdomain: string;
+		addresses: string[];
+	}>;
+}
+
+export interface WhoisData {
+	name: string;
+	status: string[];
+	nameserver: string[];
+	nsAnalysis?: {
+		detectedProviders: string[];
+	};
+	ips?: string;
+	created?: string;
+	changed?: string;
+	expires?: string;
+	age?: {
+		days: number;
+		months: number;
+		years: number;
+	};
+	expiration?: {
+		daysLeft: number;
+		isExpiringSoon: boolean;
+		isExpired: boolean;
+	};
+	dnssec?: string;
+	source?: string;
+	registrar?: {
+		name: string;
+		email?: string | null;
+	};
+}
+
+export interface ApiResponse<T = unknown> {
+	success: boolean;
+	data?: T;
+	error?: string;
+	message?: string;
+}
+
+export interface ApiErrorResponse {
+	success: false;
+	error: string;
+	message?: string;
+}
+
+export interface HostScanApiResponse {
+	success: boolean;
+	data?: InternetDBResult;
+	queriedTarget?: string;
+	resolvedIp?: string;
+	error?: string;
+}

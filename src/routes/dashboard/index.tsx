@@ -78,10 +78,91 @@ function DashboardPage() {
 					</p>
 				</header>
 
+				{/* Featured Flagship: Unified Target Dossier */}
+				<div className="mb-8">
+					<Card
+						className={`flex flex-col justify-between border-[#232B35] bg-[#12181F]`}
+					>
+						<div className="p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+							<div className="space-y-2">
+								<div className="flex items-center gap-2">
+									<Badge className="bg-(--link) text-white font-mono text-[10px] tracking-wide uppercase px-2 py-0.5">
+										New
+									</Badge>
+									<Badge
+										variant="outline"
+										className="border-purple-500/40 text-purple-300 font-mono text-[10px] tracking-wide uppercase"
+									>
+										With AI Recommendations
+									</Badge>
+								</div>
+								<h2 className="text-xl font-bold text-(--text) tracking-tight">
+									Unified Attack Surface Audit & AI Analyst
+								</h2>
+								<p className="text-xs text-(--text-secondary) max-w-xl leading-relaxed">
+									One-click composite scan running DNS recon, SSL audit,
+									subdomain discovery, and Shodan CVE detection in parallel with
+									an AI-synthesized risk scorecard and remediation commands.
+								</p>
+							</div>
+
+							<Button
+								asChild
+								className="bg-(--link) hover:bg-(--link)/80 text-white font-medium text-xs px-5 shrink-0"
+							>
+								<Link to="/audit">
+									Explore
+									<ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+								</Link>
+							</Button>
+						</div>
+					</Card>
+				</div>
+
+				<div className="mb-4">
+					<h3 className="text-xs font-mono tracking-wider uppercase text-(--text-secondary)">
+						Individual Recon Tools
+					</h3>
+				</div>
+
 				<div className="grid gap-4 sm:grid-cols-2">
 					{tools.map((tool) => (
 						<ToolCard key={tool.name} tool={tool} />
 					))}
+				</div>
+
+				{/* Developer API Documentation Banner */}
+				<div className="mt-12 rounded-xl border border-[#232B35] bg-[#12181F] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+					<div className="space-y-1.5">
+						<div className="flex items-center gap-2">
+							<Badge
+								variant="outline"
+								className="border-(--link)/40 text-(--link) font-mono text-[10px] tracking-wide uppercase px-2 py-0.5"
+							>
+								Developer API
+							</Badge>
+							<span className="text-xs text-[#8A98A3] font-mono">v1 REST</span>
+						</div>
+						<h3 className="text-base font-semibold text-[#F3F6F8]">
+							Programmatic Security Reconnaissance
+						</h3>
+						<p className="text-xs text-[#8A98A3] max-w-xl">
+							All reconnaissance modules (Unified Audit, DNS, SSL, Subdomains,
+							Shodan, and WHOIS) are accessible via high-performance REST
+							endpoints with typed contracts.
+						</p>
+					</div>
+
+					<Button
+						asChild
+						variant="outline"
+						className="border-[#232B35] bg-[#0A0E13] text-[#F3F6F8] hover:bg-[#1C242E] text-xs px-5 shrink-0"
+					>
+						<Link to="/docs">
+							API Documentation
+							<ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+						</Link>
+					</Button>
 				</div>
 			</div>
 		</div>

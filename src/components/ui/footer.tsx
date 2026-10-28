@@ -13,6 +13,12 @@ export function Footer() {
 
 					<nav className="flex flex-wrap gap-x-4 gap-y-2">
 						<Link
+							to="/docs"
+							className="hover:underline hover:text-(--text) transition-colors text-(--link) font-medium"
+						>
+							API Docs
+						</Link>
+						<Link
 							to="/privacy"
 							className="hover:underline hover:text-(--text) transition-colors"
 						>

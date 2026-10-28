@@ -18,6 +18,7 @@ import {
 import { type SubmitEvent, useMemo, useState } from "react";
 import { domainSchema } from "#/lib/schema.ts";
 import type { DomainEnumerationResult } from "#/lib/types.ts";
+import { useFormRateLimiter } from "#/lib/use-rate-limiter.ts";
 import { enumerateDomainServerFn } from "#/lib/whoisjson.ts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +37,13 @@ function DomainEnumerationPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [copiedText, setCopiedText] = useState<string | null>(null);
+
+	const { rateLimitError, executeWithRateLimit, isExceeded } =
+		useFormRateLimiter({
+			limit: 5,
+			windowMs: 10000,
+			name: "Subdomain enumeration",
+		});
 
 	const enumerate = useServerFn(enumerateDomainServerFn);
 
@@ -62,7 +70,9 @@ function DomainEnumerationPage() {
 	const handleSearch = async (e: SubmitEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		subdomainForm.handleSubmit();
+		executeWithRateLimit(() => {
+			subdomainForm.handleSubmit();
+		});
 	};
 
 	function handleCopy(text: string) {
@@ -189,17 +199,31 @@ function DomainEnumerationPage() {
 								return (
 									<Button
 										type="submit"
-										disabled={!canSubmit || isSubmitting || loading || !isValid}
+										disabled={
+											!canSubmit ||
+											isSubmitting ||
+											loading ||
+											!isValid ||
+											isExceeded
+										}
 										className="bg-(--link) text-xs text-(--text) hover:bg-(--link)/80 shrink-0"
 									>
 										{isSubmitting || loading
 											? "Enumerating…"
-											: "Enumerate Subdomains"}
+											: isExceeded
+												? "Rate limited"
+												: "Enumerate Subdomains"}
 									</Button>
 								);
 							}}
 						</subdomainForm.Subscribe>
 					</div>
+
+					{rateLimitError && (
+						<Alert className="border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs py-2">
+							<AlertDescription>{rateLimitError}</AlertDescription>
+						</Alert>
+					)}
 
 					<div className="w-full">
 						<subdomainForm.Field name="domainName">

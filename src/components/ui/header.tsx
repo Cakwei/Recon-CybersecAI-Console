@@ -18,13 +18,26 @@ export function Header() {
 				>
 					Recon Console
 				</Button>
-				{location.pathname !== "/dashboard" && (
-					<Link to="/dashboard" className="text-xs">
-						<Button className="hover:text-(--text)/80 text-(--text) bg-(--link) hover:bg-(--link)/80 text-xs">
-							Dashboard
+				<div className="flex items-center gap-3">
+					<Link to="/docs" className="text-xs">
+						<Button
+							className={`text-xs hover:text-(--link)/80 bg-transparent ${
+								location.pathname === "/docs"
+									? "text-(--link) font-semibold"
+									: "text-(--text-secondary)"
+							}`}
+						>
+							API Docs
 						</Button>
 					</Link>
-				)}
+					{location.pathname !== "/dashboard" && (
+						<Link to="/dashboard" className="text-xs">
+							<Button className="hover:text-(--text)/80 text-(--text) bg-(--link) hover:bg-(--link)/80 text-xs">
+								Dashboard
+							</Button>
+						</Link>
+					)}
+				</div>
 			</div>
 		</header>
 	);

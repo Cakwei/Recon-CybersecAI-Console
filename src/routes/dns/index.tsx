@@ -16,6 +16,7 @@ import {
 import { type SubmitEvent, useState } from "react";
 import { domainSchema } from "#/lib/schema.ts";
 import type { DnsReconResult } from "#/lib/types.ts";
+import { useFormRateLimiter } from "#/lib/use-rate-limiter.ts";
 import { reconDnsServerFn } from "#/lib/whoisjson.ts";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,13 @@ function DnsReconPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [copiedText, setCopiedText] = useState<string | null>(null);
+
+	const { rateLimitError, executeWithRateLimit, isExceeded } =
+		useFormRateLimiter({
+			limit: 5,
+			windowMs: 10000,
+			name: "DNS reconnaissance",
+		});
 
 	const dnsReconForm = useForm({
 		defaultValues: { domainName: "" },
@@ -60,7 +68,9 @@ function DnsReconPage() {
 	const handleSearch = async (e: SubmitEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		dnsReconForm.handleSubmit();
+		executeWithRateLimit(() => {
+			dnsReconForm.handleSubmit();
+		});
 	};
 
 	function handleCopy(text: string) {
@@ -186,15 +196,31 @@ function DnsReconPage() {
 								return (
 									<Button
 										type="submit"
-										disabled={!canSubmit || isSubmitting || loading || !isValid}
+										disabled={
+											!canSubmit ||
+											isSubmitting ||
+											loading ||
+											!isValid ||
+											isExceeded
+										}
 										className="bg-(--link) text-xs text-(--text) hover:bg-(--link)/80 shrink-0"
 									>
-										{isSubmitting || loading ? "Resolving…" : "Recon DNS"}
+										{isSubmitting || loading
+											? "Resolving…"
+											: isExceeded
+												? "Rate limited"
+												: "Recon DNS"}
 									</Button>
 								);
 							}}
 						</dnsReconForm.Subscribe>
 					</div>
+
+					{rateLimitError && (
+						<Alert className="border-amber-500/40 bg-amber-500/10 text-amber-300 text-xs py-2">
+							<AlertDescription>{rateLimitError}</AlertDescription>
+						</Alert>
+					)}
 
 					<div className="w-full">
 						<dnsReconForm.Field name="domainName">

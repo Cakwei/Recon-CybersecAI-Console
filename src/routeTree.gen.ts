@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuditIndexRouteImport } from './routes/audit/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DnsIndexRouteImport } from './routes/dns/index'
+import { Route as DocsIndexRouteImport } from './routes/docs/index'
 import { Route as DomainEnumerationIndexRouteImport } from './routes/domain-enumeration/index'
 import { Route as PrivacyIndexRouteImport } from './routes/privacy/index'
 import { Route as ScanIndexRouteImport } from './routes/scan/index'
@@ -19,12 +21,24 @@ import { Route as SslIndexRouteImport } from './routes/ssl/index'
 import { Route as SubdomainsIndexRouteImport } from './routes/subdomains/index'
 import { Route as TermsIndexRouteImport } from './routes/terms/index'
 import { Route as WhoisIndexRouteImport } from './routes/whois/index'
+import { Route as ApiV1AiChatRouteImport } from './routes/api/v1/ai/chat'
+import { Route as ApiV1AuditIndexRouteImport } from './routes/api/v1/audit/index'
 import { Route as ApiV1AuthSplatRouteImport } from './routes/api/v1/auth/$'
+import { Route as ApiV1DnsIndexRouteImport } from './routes/api/v1/dns/index'
+import { Route as ApiV1DomainEnumerationIndexRouteImport } from './routes/api/v1/domain-enumeration/index'
+import { Route as ApiV1ScanIndexRouteImport } from './routes/api/v1/scan/index'
+import { Route as ApiV1SslIndexRouteImport } from './routes/api/v1/ssl/index'
+import { Route as ApiV1SubdomainIndexRouteImport } from './routes/api/v1/subdomain/index'
 import { Route as ApiV1WhoisIndexRouteImport } from './routes/api/v1/whois/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditIndexRoute = AuditIndexRouteImport.update({
+  id: '/audit/',
+  path: '/audit/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -35,6 +49,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
 const DnsIndexRoute = DnsIndexRouteImport.update({
   id: '/dns/',
   path: '/dns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/docs/',
+  path: '/docs/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DomainEnumerationIndexRoute = DomainEnumerationIndexRouteImport.update({
@@ -72,9 +91,45 @@ const WhoisIndexRoute = WhoisIndexRouteImport.update({
   path: '/whois/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1AiChatRoute = ApiV1AiChatRouteImport.update({
+  id: '/api/v1/ai/chat',
+  path: '/api/v1/ai/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1AuditIndexRoute = ApiV1AuditIndexRouteImport.update({
+  id: '/api/v1/audit/',
+  path: '/api/v1/audit/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1AuthSplatRoute = ApiV1AuthSplatRouteImport.update({
   id: '/api/v1/auth/$',
   path: '/api/v1/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1DnsIndexRoute = ApiV1DnsIndexRouteImport.update({
+  id: '/api/v1/dns/',
+  path: '/api/v1/dns/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1DomainEnumerationIndexRoute =
+  ApiV1DomainEnumerationIndexRouteImport.update({
+    id: '/api/v1/domain-enumeration/',
+    path: '/api/v1/domain-enumeration/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiV1ScanIndexRoute = ApiV1ScanIndexRouteImport.update({
+  id: '/api/v1/scan/',
+  path: '/api/v1/scan/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1SslIndexRoute = ApiV1SslIndexRouteImport.update({
+  id: '/api/v1/ssl/',
+  path: '/api/v1/ssl/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1SubdomainIndexRoute = ApiV1SubdomainIndexRouteImport.update({
+  id: '/api/v1/subdomain/',
+  path: '/api/v1/subdomain/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiV1WhoisIndexRoute = ApiV1WhoisIndexRouteImport.update({
@@ -85,8 +140,10 @@ const ApiV1WhoisIndexRoute = ApiV1WhoisIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/audit/': typeof AuditIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dns/': typeof DnsIndexRoute
+  '/docs/': typeof DocsIndexRoute
   '/domain-enumeration/': typeof DomainEnumerationIndexRoute
   '/privacy/': typeof PrivacyIndexRoute
   '/scan/': typeof ScanIndexRoute
@@ -94,13 +151,22 @@ export interface FileRoutesByFullPath {
   '/subdomains/': typeof SubdomainsIndexRoute
   '/terms/': typeof TermsIndexRoute
   '/whois/': typeof WhoisIndexRoute
+  '/api/v1/ai/chat': typeof ApiV1AiChatRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/audit/': typeof ApiV1AuditIndexRoute
+  '/api/v1/dns/': typeof ApiV1DnsIndexRoute
+  '/api/v1/domain-enumeration/': typeof ApiV1DomainEnumerationIndexRoute
+  '/api/v1/scan/': typeof ApiV1ScanIndexRoute
+  '/api/v1/ssl/': typeof ApiV1SslIndexRoute
+  '/api/v1/subdomain/': typeof ApiV1SubdomainIndexRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/audit': typeof AuditIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dns': typeof DnsIndexRoute
+  '/docs': typeof DocsIndexRoute
   '/domain-enumeration': typeof DomainEnumerationIndexRoute
   '/privacy': typeof PrivacyIndexRoute
   '/scan': typeof ScanIndexRoute
@@ -108,14 +174,23 @@ export interface FileRoutesByTo {
   '/subdomains': typeof SubdomainsIndexRoute
   '/terms': typeof TermsIndexRoute
   '/whois': typeof WhoisIndexRoute
+  '/api/v1/ai/chat': typeof ApiV1AiChatRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/audit': typeof ApiV1AuditIndexRoute
+  '/api/v1/dns': typeof ApiV1DnsIndexRoute
+  '/api/v1/domain-enumeration': typeof ApiV1DomainEnumerationIndexRoute
+  '/api/v1/scan': typeof ApiV1ScanIndexRoute
+  '/api/v1/ssl': typeof ApiV1SslIndexRoute
+  '/api/v1/subdomain': typeof ApiV1SubdomainIndexRoute
   '/api/v1/whois': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/audit/': typeof AuditIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dns/': typeof DnsIndexRoute
+  '/docs/': typeof DocsIndexRoute
   '/domain-enumeration/': typeof DomainEnumerationIndexRoute
   '/privacy/': typeof PrivacyIndexRoute
   '/scan/': typeof ScanIndexRoute
@@ -123,15 +198,24 @@ export interface FileRoutesById {
   '/subdomains/': typeof SubdomainsIndexRoute
   '/terms/': typeof TermsIndexRoute
   '/whois/': typeof WhoisIndexRoute
+  '/api/v1/ai/chat': typeof ApiV1AiChatRoute
   '/api/v1/auth/$': typeof ApiV1AuthSplatRoute
+  '/api/v1/audit/': typeof ApiV1AuditIndexRoute
+  '/api/v1/dns/': typeof ApiV1DnsIndexRoute
+  '/api/v1/domain-enumeration/': typeof ApiV1DomainEnumerationIndexRoute
+  '/api/v1/scan/': typeof ApiV1ScanIndexRoute
+  '/api/v1/ssl/': typeof ApiV1SslIndexRoute
+  '/api/v1/subdomain/': typeof ApiV1SubdomainIndexRoute
   '/api/v1/whois/': typeof ApiV1WhoisIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/audit/'
     | '/dashboard/'
     | '/dns/'
+    | '/docs/'
     | '/domain-enumeration/'
     | '/privacy/'
     | '/scan/'
@@ -139,13 +223,22 @@ export interface FileRouteTypes {
     | '/subdomains/'
     | '/terms/'
     | '/whois/'
+    | '/api/v1/ai/chat'
     | '/api/v1/auth/$'
+    | '/api/v1/audit/'
+    | '/api/v1/dns/'
+    | '/api/v1/domain-enumeration/'
+    | '/api/v1/scan/'
+    | '/api/v1/ssl/'
+    | '/api/v1/subdomain/'
     | '/api/v1/whois/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/audit'
     | '/dashboard'
     | '/dns'
+    | '/docs'
     | '/domain-enumeration'
     | '/privacy'
     | '/scan'
@@ -153,13 +246,22 @@ export interface FileRouteTypes {
     | '/subdomains'
     | '/terms'
     | '/whois'
+    | '/api/v1/ai/chat'
     | '/api/v1/auth/$'
+    | '/api/v1/audit'
+    | '/api/v1/dns'
+    | '/api/v1/domain-enumeration'
+    | '/api/v1/scan'
+    | '/api/v1/ssl'
+    | '/api/v1/subdomain'
     | '/api/v1/whois'
   id:
     | '__root__'
     | '/'
+    | '/audit/'
     | '/dashboard/'
     | '/dns/'
+    | '/docs/'
     | '/domain-enumeration/'
     | '/privacy/'
     | '/scan/'
@@ -167,14 +269,23 @@ export interface FileRouteTypes {
     | '/subdomains/'
     | '/terms/'
     | '/whois/'
+    | '/api/v1/ai/chat'
     | '/api/v1/auth/$'
+    | '/api/v1/audit/'
+    | '/api/v1/dns/'
+    | '/api/v1/domain-enumeration/'
+    | '/api/v1/scan/'
+    | '/api/v1/ssl/'
+    | '/api/v1/subdomain/'
     | '/api/v1/whois/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuditIndexRoute: typeof AuditIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DnsIndexRoute: typeof DnsIndexRoute
+  DocsIndexRoute: typeof DocsIndexRoute
   DomainEnumerationIndexRoute: typeof DomainEnumerationIndexRoute
   PrivacyIndexRoute: typeof PrivacyIndexRoute
   ScanIndexRoute: typeof ScanIndexRoute
@@ -182,7 +293,14 @@ export interface RootRouteChildren {
   SubdomainsIndexRoute: typeof SubdomainsIndexRoute
   TermsIndexRoute: typeof TermsIndexRoute
   WhoisIndexRoute: typeof WhoisIndexRoute
+  ApiV1AiChatRoute: typeof ApiV1AiChatRoute
   ApiV1AuthSplatRoute: typeof ApiV1AuthSplatRoute
+  ApiV1AuditIndexRoute: typeof ApiV1AuditIndexRoute
+  ApiV1DnsIndexRoute: typeof ApiV1DnsIndexRoute
+  ApiV1DomainEnumerationIndexRoute: typeof ApiV1DomainEnumerationIndexRoute
+  ApiV1ScanIndexRoute: typeof ApiV1ScanIndexRoute
+  ApiV1SslIndexRoute: typeof ApiV1SslIndexRoute
+  ApiV1SubdomainIndexRoute: typeof ApiV1SubdomainIndexRoute
   ApiV1WhoisIndexRoute: typeof ApiV1WhoisIndexRoute
 }
 
@@ -193,6 +311,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit/': {
+      id: '/audit/'
+      path: '/audit'
+      fullPath: '/audit/'
+      preLoaderRoute: typeof AuditIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -207,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/dns'
       fullPath: '/dns/'
       preLoaderRoute: typeof DnsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/': {
+      id: '/docs/'
+      path: '/docs'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/domain-enumeration/': {
@@ -258,11 +390,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WhoisIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/ai/chat': {
+      id: '/api/v1/ai/chat'
+      path: '/api/v1/ai/chat'
+      fullPath: '/api/v1/ai/chat'
+      preLoaderRoute: typeof ApiV1AiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/audit/': {
+      id: '/api/v1/audit/'
+      path: '/api/v1/audit'
+      fullPath: '/api/v1/audit/'
+      preLoaderRoute: typeof ApiV1AuditIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/auth/$': {
       id: '/api/v1/auth/$'
       path: '/api/v1/auth/$'
       fullPath: '/api/v1/auth/$'
       preLoaderRoute: typeof ApiV1AuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/dns/': {
+      id: '/api/v1/dns/'
+      path: '/api/v1/dns'
+      fullPath: '/api/v1/dns/'
+      preLoaderRoute: typeof ApiV1DnsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/domain-enumeration/': {
+      id: '/api/v1/domain-enumeration/'
+      path: '/api/v1/domain-enumeration'
+      fullPath: '/api/v1/domain-enumeration/'
+      preLoaderRoute: typeof ApiV1DomainEnumerationIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/scan/': {
+      id: '/api/v1/scan/'
+      path: '/api/v1/scan'
+      fullPath: '/api/v1/scan/'
+      preLoaderRoute: typeof ApiV1ScanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/ssl/': {
+      id: '/api/v1/ssl/'
+      path: '/api/v1/ssl'
+      fullPath: '/api/v1/ssl/'
+      preLoaderRoute: typeof ApiV1SslIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/subdomain/': {
+      id: '/api/v1/subdomain/'
+      path: '/api/v1/subdomain'
+      fullPath: '/api/v1/subdomain/'
+      preLoaderRoute: typeof ApiV1SubdomainIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/v1/whois/': {
@@ -277,8 +458,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuditIndexRoute: AuditIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DnsIndexRoute: DnsIndexRoute,
+  DocsIndexRoute: DocsIndexRoute,
   DomainEnumerationIndexRoute: DomainEnumerationIndexRoute,
   PrivacyIndexRoute: PrivacyIndexRoute,
   ScanIndexRoute: ScanIndexRoute,
@@ -286,7 +469,14 @@ const rootRouteChildren: RootRouteChildren = {
   SubdomainsIndexRoute: SubdomainsIndexRoute,
   TermsIndexRoute: TermsIndexRoute,
   WhoisIndexRoute: WhoisIndexRoute,
+  ApiV1AiChatRoute: ApiV1AiChatRoute,
   ApiV1AuthSplatRoute: ApiV1AuthSplatRoute,
+  ApiV1AuditIndexRoute: ApiV1AuditIndexRoute,
+  ApiV1DnsIndexRoute: ApiV1DnsIndexRoute,
+  ApiV1DomainEnumerationIndexRoute: ApiV1DomainEnumerationIndexRoute,
+  ApiV1ScanIndexRoute: ApiV1ScanIndexRoute,
+  ApiV1SslIndexRoute: ApiV1SslIndexRoute,
+  ApiV1SubdomainIndexRoute: ApiV1SubdomainIndexRoute,
   ApiV1WhoisIndexRoute: ApiV1WhoisIndexRoute,
 }
 export const routeTree = rootRouteImport

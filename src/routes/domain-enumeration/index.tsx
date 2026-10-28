@@ -5,4 +5,3 @@ export const Route = createFileRoute("/domain-enumeration/")({
 		throw redirect({ to: "/subdomains" });
 	},
 });
-
