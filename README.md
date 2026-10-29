@@ -52,7 +52,6 @@ All reconnaissance queries are **strictly passive and non-intrusive**, pulling d
 - **State & Data:** [TanStack Store](https://tanstack.com/store), [TanStack Query](https://tanstack.com/query)
 - **Forms & Rate Limiting:** [TanStack Form](https://tanstack.com/form), [TanStack Pacer](https://tanstack.com/pacer)
 - **AI Streaming:** `@tanstack/ai`, `@tanstack/ai-gemini`, `@tanstack/ai-anthropic`, [Streamdown](https://github.com/streamdown)
-- **Database ORM:** [Prisma](https://www.prisma.io/)
 - **Testing & Quality:** [Vitest](https://vitest.dev/) (89 unit/integration tests), [Biome](https://biomejs.dev/)
 
 ---

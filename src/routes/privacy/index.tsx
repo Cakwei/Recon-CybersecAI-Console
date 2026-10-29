@@ -9,7 +9,6 @@ import {
 	Lock,
 	Server,
 	Shield,
-	UserCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -63,8 +62,9 @@ function PrivacyPolicyPage() {
 						Privacy Policy
 					</h1>
 					<p className="mt-3 text-base text-(--text-secondary) max-w-2xl leading-relaxed">
-						How Recon Console handles user queries, telemetry, and account data
-						while operating passive security intelligence tools.
+						How Recon Console handles user queries, telemetry, and security data
+						while operating as a stateless, zero-database passive intelligence
+						tool.
 					</p>
 
 					<div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-(--text-secondary)">
@@ -111,35 +111,17 @@ function PrivacyPolicyPage() {
 						<Card className="bg-(--bg-secondary) border-border">
 							<CardHeader className="pb-2">
 								<div className="flex items-center gap-2 text-(--link)">
-									<Eye className="h-4 w-4" />
-									<CardTitle className="text-sm font-medium text-(--text)">
-										No Data Monetization
-									</CardTitle>
-								</div>
-							</CardHeader>
-							<CardContent>
-								<p className="text-xs leading-relaxed text-(--text-secondary)">
-									We never sell, rent, or trade your personal data, lookup
-									queries, or account credentials to third parties or
-									advertising networks.
-								</p>
-							</CardContent>
-						</Card>
-
-						<Card className="bg-(--bg-secondary) border-border">
-							<CardHeader className="pb-2">
-								<div className="flex items-center gap-2 text-(--link)">
 									<Lock className="h-4 w-4" />
 									<CardTitle className="text-sm font-medium text-(--text)">
-										Encrypted in Transit
+										Zero Accounts & Stateless
 									</CardTitle>
 								</div>
 							</CardHeader>
 							<CardContent>
 								<p className="text-xs leading-relaxed text-(--text-secondary)">
-									All communications between your browser and our servers are
-									encrypted via standard TLS/HTTPS. Sessions and authentication
-									tokens are securely managed.
+									Recon Console requires no signups, passwords, or personal
+									credentials. All reconnaissance tools and REST APIs operate
+									statelessly.
 								</p>
 							</CardContent>
 						</Card>
@@ -147,17 +129,17 @@ function PrivacyPolicyPage() {
 						<Card className="bg-(--bg-secondary) border-border">
 							<CardHeader className="pb-2">
 								<div className="flex items-center gap-2 text-(--link)">
-									<UserCheck className="h-4 w-4" />
+									<Eye className="h-4 w-4" />
 									<CardTitle className="text-sm font-medium text-(--text)">
-										Control & Deletion
+										Zero Persistent Storage
 									</CardTitle>
 								</div>
 							</CardHeader>
 							<CardContent>
 								<p className="text-xs leading-relaxed text-(--text-secondary)">
-									You retain full control over your account. You can request
-									complete deletion of your account record and associated search
-									history at any time.
+									We maintain no persistent database for user searches or scan
+									history. Audit results are computed ephemerally in-memory and
+									discarded.
 								</p>
 							</CardContent>
 						</Card>
@@ -179,16 +161,20 @@ function PrivacyPolicyPage() {
 						<div className="mt-4 space-y-3 text-sm text-(--text-secondary) leading-relaxed">
 							<p>
 								This Privacy Policy describes how Recon Console ("we", "our", or
-								"the platform"), maintained as a defensive security research and
-								portfolio showcase project, collects, handles, and protects
-								information when you visit the website, utilize our host
-								reconnaissance utilities, or create a registered user account.
+								"the platform"), maintained as an open-source defensive security
+								research and reconnaissance project, handles information when
+								you visit the website, utilize our reconnaissance utilities, or
+								integrate with our public REST API.
+							</p>
+							<p>
+								Recon Console operates as a{" "}
+								<strong>stateless, account-free platform</strong>. We do not
+								require user accounts, passwords, or personal credentials to
+								access any intelligence features.
 							</p>
 							<p>
 								By accessing or using Recon Console, you acknowledge that you
-								have read and understood this Privacy Policy. If you do not
-								agree with our practices, please discontinue use of the
-								platform.
+								have read and understood this Privacy Policy.
 							</p>
 						</div>
 					</section>
@@ -201,50 +187,43 @@ function PrivacyPolicyPage() {
 							<span className="uppercase">Data Collection</span>
 						</div>
 						<h2 className="mt-2 text-xl font-semibold text-(--text)">
-							2. Information We Collect
+							2. Information We Process
 						</h2>
 						<div className="mt-4 space-y-4 text-sm text-(--text-secondary) leading-relaxed">
 							<p>
-								We prioritize data minimization, collecting only what is
-								necessary to execute search queries, manage authentication, and
-								safeguard our infrastructure:
+								We prioritize extreme data minimization. Because Recon Console
+								is completely stateless, we do not maintain a user database or
+								store persistent lookup history:
 							</p>
 
 							<div className="rounded-lg border border-border/60 bg-(--bg) p-4 space-y-2">
 								<h3 className="font-medium text-(--text) text-xs uppercase tracking-wide font-mono">
-									A. Account Information (Authenticated Users)
+									A. No Account or Credential Collection
 								</h3>
 								<p className="text-xs">
-									When signing up or authenticating via Better Auth, we may
-									collect:
+									We do not collect names, email addresses, passwords, or OAuth
+									tokens. All security tools and public REST endpoints are open
+									without authentication.
 								</p>
-								<ul className="list-disc pl-5 text-xs space-y-1 text-(--text-secondary)">
-									<li>Email address and display name</li>
-									<li>
-										Hashed authentication credentials or OAuth provider tokens
-									</li>
-									<li>
-										Account creation timestamp and last active session dates
-									</li>
-								</ul>
 							</div>
 
 							<div className="rounded-lg border border-border/60 bg-(--bg) p-4 space-y-2">
 								<h3 className="font-medium text-(--text) text-xs uppercase tracking-wide font-mono">
-									B. Reconnaissance Query Inputs
+									B. Reconnaissance Query Inputs (Ephemeral In-Memory Only)
 								</h3>
 								<p className="text-xs">
 									When you interact with our lookup tools (e.g. IP scan, WHOIS
-									query, or subdomain enumeration), you submit target
+									query, DNS recon, or subdomain enumeration), you submit target
 									identifiers such as:
 								</p>
 								<ul className="list-disc pl-5 text-xs space-y-1 text-(--text-secondary)">
-									<li>IPv4 and IPv6 target addresses</li>
+									<li>IPv4 target addresses</li>
 									<li>Fully qualified domain names (FQDNs)</li>
 								</ul>
 								<p className="text-xs text-(--text-secondary)/80">
-									These query strings are processed by our backend to dispatch
-									requests to external passive databases.
+									These query strings are processed ephemerally in-memory to
+									dispatch requests to external passive registries and are never
+									stored in a database.
 								</p>
 							</div>
 
@@ -394,9 +373,19 @@ function PrivacyPolicyPage() {
 
 							<div className="space-y-3">
 								<div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-border/60 pb-2 text-xs">
-									<span className="font-mono text-(--text)">Account Data</span>
+									<span className="font-mono text-(--text)">
+										User Accounts & Profiles
+									</span>
 									<span className="text-(--text-secondary)">
-										Retained until account deletion is requested
+										None (Stateless, no account database exists)
+									</span>
+								</div>
+								<div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-border/60 pb-2 text-xs">
+									<span className="font-mono text-(--text)">
+										Target Scan & Dossier History
+									</span>
+									<span className="text-(--text-secondary)">
+										Never persisted (computed in-memory and discarded)
 									</span>
 								</div>
 								<div className="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-border/60 pb-2 text-xs">
@@ -422,10 +411,9 @@ function PrivacyPolicyPage() {
 									Cookies & Session Storage
 								</h3>
 								<p className="text-xs text-(--text-secondary)">
-									We use essential session cookies strictly required for user
-									authentication and CSRF protection. We do not use third-party
-									analytics cookies, advertising trackers, or cross-site
-									tracking pixels.
+									We do not store authentication cookies, tracking cookies,
+									advertising trackers, or cross-site tracking pixels on your
+									device.
 								</p>
 							</div>
 						</div>
@@ -444,7 +432,7 @@ function PrivacyPolicyPage() {
 						<div className="mt-4 space-y-3 text-sm text-(--text-secondary) leading-relaxed">
 							<p>
 								We implement technical and organizational controls to safeguard
-								platform data against unauthorized access, loss, or disclosure:
+								platform infrastructure:
 							</p>
 							<ul className="list-disc pl-5 text-sm space-y-1.5 text-(--text-secondary)">
 								<li>
@@ -452,23 +440,14 @@ function PrivacyPolicyPage() {
 									endpoints.
 								</li>
 								<li>
-									Authentication tokens and sensitive secrets encrypted at rest
-									and in memory.
-								</li>
-								<li>
 									Network-level isolation and firewall boundaries on our cloud
 									infrastructure.
 								</li>
 								<li>
 									Strict rate limiting on API endpoints to prevent brute-force
-									attacks.
+									and denial-of-service attempts.
 								</li>
 							</ul>
-							<p className="text-xs text-(--text-secondary)/80 italic">
-								Please note that no digital transmission or cloud storage system
-								is 100% immune to security incidents. We encourage users to
-								maintain strong credentials.
-							</p>
 						</div>
 					</section>
 
@@ -480,40 +459,29 @@ function PrivacyPolicyPage() {
 							<span className="uppercase">User Rights</span>
 						</div>
 						<h2 className="mt-2 text-xl font-semibold text-(--text)">
-							7. Your Rights & Data Choices
+							7. Privacy by Design & User Rights
 						</h2>
 						<div className="mt-4 space-y-3 text-sm text-(--text-secondary) leading-relaxed">
 							<p>
-								Depending on your jurisdiction, you may have statutory rights
-								regarding your personal information:
+								Because Recon Console is completely stateless and does not
+								maintain user accounts or scan history databases, your privacy
+								is protected by design:
 							</p>
 							<div className="grid gap-3 sm:grid-cols-2 text-xs">
 								<div className="rounded-lg border border-border bg-(--bg) p-3">
 									<strong className="text-(--text) block mb-1">
-										Access & Portability
+										No Profiling
 									</strong>
-									You have the right to request a copy of the profile data
-									associated with your account.
+									We do not build behavioral profiles, link queries to
+									identities, or retain user search archives.
 								</div>
 								<div className="rounded-lg border border-border bg-(--bg) p-3">
 									<strong className="text-(--text) block mb-1">
-										Rectification
+										Zero Data Erasure Burden
 									</strong>
-									You can update inaccurate email or profile details directly
-									within your account settings.
-								</div>
-								<div className="rounded-lg border border-border bg-(--bg) p-3">
-									<strong className="text-(--text) block mb-1">
-										Deletion (Erasure)
-									</strong>
-									You may request permanent removal of your account and related
-									metadata.
-								</div>
-								<div className="rounded-lg border border-border bg-(--bg) p-3">
-									<strong className="text-(--text) block mb-1">
-										Objection & Restriction
-									</strong>
-									You can opt out of non-essential processing at any time.
+									Because no account or scan records are stored in a database,
+									there is no personal record requiring manual deletion
+									requests.
 								</div>
 							</div>
 						</div>

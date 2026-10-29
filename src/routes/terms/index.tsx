@@ -294,8 +294,8 @@ function TermsOfServicePage() {
 								</li>
 								<li>
 									<strong className="text-(--text)">Automated Scraping:</strong>{" "}
-									Deploying unauthorized bots, spiders, or headless scrapers to
-									harvest bulk database records without explicit authorization.
+									Deploying aggressive or malicious bots to flood endpoints,
+									cause denial-of-service, or exhaust upstream API quotas.
 								</li>
 								<li>
 									<strong className="text-(--text)">Bypassing Controls:</strong>{" "}
@@ -314,9 +314,9 @@ function TermsOfServicePage() {
 							</ul>
 
 							<div className="rounded-lg border border-rose-900/40 bg-rose-950/20 p-4 text-xs text-rose-300">
-								Violation of these restrictions will result in immediate IP
-								banning, account termination, and, where appropriate, referral
-								to competent legal authorities.
+								Violation of these restrictions will result in immediate
+								IP-level rate limiting, firewall blocking, and, where
+								appropriate, referral to competent legal authorities.
 							</div>
 						</div>
 					</section>
@@ -367,28 +367,34 @@ function TermsOfServicePage() {
 						<div className="flex items-center gap-2 font-mono text-xs text-(--link)">
 							<span>06</span>
 							<span className="opacity-50">|</span>
-							<span className="uppercase">Account Security</span>
+							<span className="uppercase">Stateless Usage</span>
 						</div>
 						<h2 className="mt-2 text-xl font-semibold text-(--text)">
-							6. User Accounts & Responsibilities
+							6. User Responsibilities & Fair Use
 						</h2>
 						<div className="mt-4 space-y-3 text-sm text-(--text-secondary) leading-relaxed">
-							<p>When creating an account on Recon Console, you agree to:</p>
+							<p>
+								Recon Console does not require user accounts or registration.
+								When utilizing the service, you agree to:
+							</p>
 							<ul className="list-disc pl-5 space-y-1.5 text-xs text-(--text-secondary)">
-								<li>Provide truthful and accurate authentication details.</li>
 								<li>
-									Safeguard your authentication credentials and session tokens
-									from unauthorized access.
+									Use all reconnaissance utilities solely for defensive security
+									auditing, educational purposes, and authorized research.
 								</li>
 								<li>
-									Immediately notify us if you suspect any compromise of your
-									account credentials.
+									Respect automated rate limits and abstain from distributed
+									flooding or denial-of-service attempts.
+								</li>
+								<li>
+									Abide by all applicable local and international computer
+									security regulations.
 								</li>
 							</ul>
 							<p className="text-xs text-(--text-secondary)">
-								We reserve the right to suspend or terminate accounts that
-								exhibit abusive behavior, excessive error rates, or violation of
-								these terms.
+								We reserve the right to restrict access to IP addresses or
+								autonomous systems that exhibit abusive behavior, automated
+								flooding, or violations of these terms.
 							</p>
 						</div>
 					</section>
